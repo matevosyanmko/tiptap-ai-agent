@@ -1,23 +1,30 @@
+"use client";
 import { createContext, PropsWithChildren } from "react";
 import { AiAgentProvider } from "@tiptap-pro/extension-ai-agent";
 import { AiAgentProviderType } from "../types/aiAgent";
 import { EditorType } from "../types/editor";
 import { AI_AGENT_SYSTEM_PROMPT } from "../constants/prompt";
 
+const systemPrompt =
+  typeof window !== "undefined"
+    ? localStorage.getItem("systemPrompt") || AI_AGENT_SYSTEM_PROMPT
+    : AI_AGENT_SYSTEM_PROMPT;
+
+const token =
+  typeof window !== "undefined"
+    ? localStorage.getItem("tiptapToken") ||
+      process.env.NEXT_PUBLIC_TIPTAP_TOKEN!
+    : process.env.NEXT_PUBLIC_TIPTAP_TOKEN!;
+
+console.log("systemPrompt", systemPrompt);
+
 // initialize the ai agent provider
 export const aiAgentProvider = new AiAgentProvider({
   appId: process.env.NEXT_PUBLIC_TIPTAP_APP_ID!,
-  token: process.env.NEXT_PUBLIC_TIPTAP_TOKEN!,
+  token,
   autoAccept: "onlyRead",
   useAiChangesExtension: true,
-  systemPrompt: AI_AGENT_SYSTEM_PROMPT,
-  // resolver: async (options) => {
-  //   const messages = options.llmMessages;
-  //   const response =
-  //     await proxyClientTrpc.tiptap.aiAgentSendMessage.mutate(messages);
-  //   const result = openaiChatCompletionsAdapter.parseResponse(response.data);
-  //   return result;
-  // },
+  systemPrompt,
 });
 
 /**

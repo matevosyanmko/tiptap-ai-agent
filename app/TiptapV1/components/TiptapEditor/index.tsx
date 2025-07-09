@@ -53,6 +53,9 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
       onContentError: (editor) => {
         console.error("onContentError", editor.error);
       },
+      onUpdate: ({ editor }) => {
+        console.log("onUpdate", editor.getJSON());
+      },
     });
 
     // on container mouse down, focus the editor

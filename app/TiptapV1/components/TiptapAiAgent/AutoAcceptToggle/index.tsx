@@ -22,7 +22,7 @@ const AutoAcceptToggle = () => {
 
   return (
     <FormControlLabel
-      className="px-2"
+      className="px-2 whitespace-nowrap"
       control={
         <Switch
           size="small"

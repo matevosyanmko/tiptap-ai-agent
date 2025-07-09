@@ -20,6 +20,10 @@ const ChatInput = () => {
     setMessage("");
     provider?.addUserMessage(message);
     provider?.run();
+    console.group("ChatInput");
+    console.log("message", message);
+    console.log("system prompt", provider?.state.systemPrompt);
+    console.groupEnd();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
