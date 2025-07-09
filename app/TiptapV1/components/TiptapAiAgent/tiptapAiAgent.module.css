@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.tiptapAiAgent :global(.tiptap) {
+  @apply space-y-2;
+}

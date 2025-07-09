@@ -1,5 +1,18 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+
+This project requires the following environment variables to be set:
+
+1. Copy `.env.example` to `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+2. Update the values in `.env.local`:
+- `NEXT_PUBLIC_TIPTAP_APP_ID`: Your Tiptap AI Agent app ID
+- `NEXT_PUBLIC_TIPTAP_TOKEN`: Your Tiptap AI Agent token
+
 ## Getting Started
 
 First, run the development server:
