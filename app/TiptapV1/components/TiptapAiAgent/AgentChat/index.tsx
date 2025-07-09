@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Dialog, Stack } from "@mui/material";
+import { Box, Button, ButtonGroup, Stack } from "@mui/material";
 import classNames from "classnames";
 import ChatInput from "./ChatInput";
 import ChatHistory from "./ChatHistory";
@@ -15,6 +15,7 @@ export interface AgentChatProps {
 
 const AgentChat = (props: AgentChatProps) => {
   const { className } = props;
+
   const [systemPromptDialogOpen, setSystemPromptDialogOpen] = useState(false);
   const [tokenDialogOpen, setTokenDialogOpen] = useState(false);
 
