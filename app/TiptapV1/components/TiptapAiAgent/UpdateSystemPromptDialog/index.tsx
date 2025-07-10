@@ -8,6 +8,7 @@ import {
   DialogActions,
   Button,
   TextField,
+  Box,
 } from "@mui/material";
 import { AI_AGENT_SYSTEM_PROMPT } from "@/app/TiptapV1/constants/prompt";
 
@@ -32,6 +33,11 @@ const UpdateSystemPromptDialog = (props: UpdateSystemPromptDialogProps) => {
     onClose();
   };
 
+  const handleReset = () => {
+    onConfirm(AI_AGENT_SYSTEM_PROMPT);
+    onClose();
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Update System Prompt</DialogTitle>
@@ -48,10 +54,18 @@ const UpdateSystemPromptDialog = (props: UpdateSystemPromptDialogProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleConfirm} variant="contained">
-          Confirm
-        </Button>
+        <Box className="flex gap-2 justify-between w-full">
+          <Box>
+            <Button onClick={handleReset}>Reset To Default</Button>
+          </Box>
+
+          <Box>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleConfirm} variant="contained">
+              Confirm
+            </Button>
+          </Box>
+        </Box>
       </DialogActions>
     </Dialog>
   );
