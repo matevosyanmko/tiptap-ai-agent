@@ -23,7 +23,7 @@ const ChatMessage = (props: ChatMessageProps) => {
       return <CheckpointChatMessage message={message} />;
 
     case "toolCall":
-      switch (message.name) {
+      switch (message.toolName) {
         case "plan":
           return (
             <BaseChatMessage
@@ -45,11 +45,13 @@ const ChatMessage = (props: ChatMessageProps) => {
           );
 
         default:
-          return <ToolCallChatMessage name={message.name} />;
+          return <ToolCallChatMessage name={message.toolName} />;
       }
 
-    case "toolCallError":
-      return <ToolCallErrorChatMessage name={message.name} />;
+    case "toolCallResult":
+      if (message.isError) {
+        return <ToolCallErrorChatMessage name={message.toolName} />;
+      }
 
     default:
       return null;
