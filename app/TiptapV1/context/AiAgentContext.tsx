@@ -16,8 +16,6 @@ const token =
       process.env.NEXT_PUBLIC_TIPTAP_TOKEN!
     : process.env.NEXT_PUBLIC_TIPTAP_TOKEN!;
 
-console.log("systemPrompt", systemPrompt);
-
 // initialize the ai agent provider
 export const aiAgentProvider = new AiAgentProvider({
   appId: process.env.NEXT_PUBLIC_TIPTAP_APP_ID!,
@@ -25,6 +23,14 @@ export const aiAgentProvider = new AiAgentProvider({
   autoAccept: "onlyRead",
   useAiChangesExtension: true,
   systemPrompt,
+  resolver: async (options) => {
+    // Call the API endpoint of your backend
+    const response = await fetch("/api/ai-agent", {
+      method: "POST",
+      body: JSON.stringify({ ...options, systemPrompt }),
+    });
+    return await response.json();
+  },
 });
 
 /**
