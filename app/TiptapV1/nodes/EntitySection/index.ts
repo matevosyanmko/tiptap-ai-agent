@@ -3,48 +3,7 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 import EntitySection from "./EntitySection";
 import { ENTITY_SECTION_NODE } from "../../constants/nodes";
 import { EditorType } from "../../types/editor";
-import { ResolvedPos } from "@tiptap/pm/model";
-
-/**
- * Checks if the current cursor position ($anchor) is within an EntitySection node
- * by traversing up the node tree from the current depth
- */
-const isAnchorInEntitySelection = ($anchor: ResolvedPos) => {
-  const depth = $anchor.depth;
-  let isInEntitySection = false;
-
-  for (let d = depth; d > 0; d--) {
-    const node = $anchor.node(d);
-    if (node.type.name === ENTITY_SECTION_NODE) {
-      isInEntitySection = true;
-      break;
-    }
-  }
-
-  return isInEntitySection;
-};
-
-/**
- * Handles Cmd/Ctrl+A shortcut within entity sections
- * If cursor is inside an entity section, selects the entire section
- * Returns true to prevent default behavior
- */
-const handleCommandAShortcut = (editor: EditorType) => {
-  if (!editor) return false;
-
-  const $anchor = editor.state.selection.$anchor;
-
-  if (isAnchorInEntitySelection($anchor)) {
-    const pos = $anchor.pos;
-    const resolvedPos = editor.state.doc.resolve(pos);
-
-    editor.commands.setTextSelection({
-      from: resolvedPos.start(),
-      to: resolvedPos.end(),
-    });
-  }
-  return true;
-};
+import { handleCommandAShortcut } from "../../utils/keyboardCommands";
 
 /**
  * Prevents deletion of EntitySection nodes
@@ -67,11 +26,17 @@ const EntitySectionNode = Node.create({
   isolating: true,
   atom: true,
   selectable: true,
+  defining: true,
 
   addAttributes() {
     return {
       title: {
         default: "",
+        isRequired: true,
+        keepOnSplit: true,
+      },
+      isCollapsed: {
+        default: true,
         isRequired: true,
         keepOnSplit: true,
       },

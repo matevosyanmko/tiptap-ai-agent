@@ -1,13 +1,14 @@
-import { Box, Button, ButtonGroup, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import classNames from "classnames";
 import ChatInput from "./ChatInput";
 import ChatHistory from "./ChatHistory";
 import AutoAcceptToggle from "../AutoAcceptToggle";
 import { ConfirmChanges } from "../ConfirmChanges";
 import { useAiAgentProviderState } from "@/app/TiptapV1/hooks/useAiAgentProviderState";
-import { useState } from "react";
-import UpdateSystemPromptDialog from "../UpdateSystemPromptDialog";
-import UpdateTokenDialog from "../UpdateTokenDialog";
+import { useLayoutEffect } from "react";
+import { toggleEntitySectionsCollapsed } from "@/app/TiptapV1/utils/view";
+import { useAiAgentProvider } from "@/app/TiptapV1/hooks/useAiAgentProvider";
+import { usePrevious } from "@/app/TiptapV1/hooks/usePrevious";
 
 export interface AgentChatProps {
   className?: string;
@@ -15,10 +16,6 @@ export interface AgentChatProps {
 
 const AgentChat = (props: AgentChatProps) => {
   const { className } = props;
-
-  const [systemPromptDialogOpen, setSystemPromptDialogOpen] = useState(false);
-  const [tokenDialogOpen, setTokenDialogOpen] = useState(false);
-
   const status = useAiAgentProviderState((state) => state.status);
 
   return (
@@ -27,17 +24,6 @@ const AgentChat = (props: AgentChatProps) => {
     >
       <Box className="sticky top-0 bg-white py-5 px-4 z-10 border-b-indigo-100 border-solid border-b-2 flex justify-between">
         <AutoAcceptToggle />
-        <ButtonGroup size="small" variant="text" className="whitespace-nowrap">
-          <Button
-            onClick={() => setSystemPromptDialogOpen(true)}
-            className="text-xs"
-          >
-            System Prompt
-          </Button>
-          <Button onClick={() => setTokenDialogOpen(true)} className="text-xs">
-            Update Token
-          </Button>
-        </ButtonGroup>
       </Box>
 
       <Box className="h-full overflow-hidden">
@@ -48,23 +34,6 @@ const AgentChat = (props: AgentChatProps) => {
         {status === "reviewingToolCall" && <ConfirmChanges />}
         <ChatInput />
       </Box>
-
-      <UpdateSystemPromptDialog
-        open={systemPromptDialogOpen}
-        onClose={() => setSystemPromptDialogOpen(false)}
-        onConfirm={(prompt) => {
-          localStorage.setItem("systemPrompt", prompt);
-          window.location.reload();
-        }}
-      />
-      <UpdateTokenDialog
-        open={tokenDialogOpen}
-        onClose={() => setTokenDialogOpen(false)}
-        onConfirm={(token) => {
-          localStorage.setItem("tiptapToken", token);
-          window.location.reload();
-        }}
-      />
     </Stack>
   );
 };

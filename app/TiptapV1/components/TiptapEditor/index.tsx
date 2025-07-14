@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useImperativeHandle, useMemo } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Box } from "@mui/material";
 import classNames from "classnames";
@@ -28,6 +28,7 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
       onCreate,
       onDestroy,
       onTransaction,
+      editable = true,
     } = props;
 
     // Expose editor instance to parent component through ref
@@ -50,6 +51,7 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
       onTransaction,
       immediatelyRender: false,
       enableContentCheck: true,
+      editable,
       onContentError: (editor) => {
         console.error("onContentError", editor.error);
       },
@@ -57,6 +59,13 @@ const TiptapEditor = forwardRef<TiptapEditorRef, TiptapEditorProps>(
         console.log("onUpdate", editor.getJSON());
       },
     });
+
+    useEffect(() => {
+      if (!editor) {
+        return;
+      }
+      editor.setEditable(editable);
+    }, [editable, editor]);
 
     // on container mouse down, focus the editor
     const handleContainerMouseDown = (

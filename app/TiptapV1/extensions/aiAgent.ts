@@ -1,7 +1,6 @@
 import AiAgent from "@tiptap-pro/extension-ai-agent";
 import { Decoration } from "@tiptap/pm/view";
 import AiChanges from "@tiptap-pro/extension-ai-changes";
-import Document from "@tiptap/extension-document";
 import Focus from "@tiptap/extension-focus";
 
 import { aiAgentProvider } from "../context/AiAgentContext";
@@ -13,24 +12,13 @@ const FocusExtension = Focus.configure({
   mode: "deepest",
 });
 
-const CustomDocumentExtension = Document.configure({});
-
 const AiAgentExtension = AiAgent.configure({
   provider: aiAgentProvider,
 });
 
 const AiChangesExtension = AiChanges.configure({
-  getCustomDecorations({ change, isSelected, getDefaultDecorations }) {
+  getCustomDecorations({ getDefaultDecorations }) {
     const decorations = getDefaultDecorations();
-
-    if (isSelected) {
-      decorations.push(
-        Decoration.widget(change.newRange.to, () => {
-          const element = document.createElement("span");
-          return element;
-        })
-      );
-    }
     return decorations;
   },
 });
@@ -40,5 +28,4 @@ export const TIPTAP_AI_AGENT_EXTENSIONS: ExtensionType[] = [
   AiAgentExtension,
   FocusExtension,
   EntitySectionNode,
-  CustomDocumentExtension,
 ];

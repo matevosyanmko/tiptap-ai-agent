@@ -24,6 +24,7 @@ export interface TiptapEditorContentProps {
   extensions?: ExtensionType[];
   initialContent?: Content;
   placeholder?: string;
+  editable?: boolean;
 }
 
 export interface TiptapEditorStyleProps {

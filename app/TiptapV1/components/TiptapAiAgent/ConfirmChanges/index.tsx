@@ -8,8 +8,19 @@ import { Button, Stack, Typography } from "@mui/material";
  */
 
 export function ConfirmChanges() {
-  const { provider } = useAiAgentProvider();
+  const { provider, editor } = useAiAgentProvider();
   const toolCall = useToolCall();
+
+  const onAccept = () => {
+    editor?.commands.setShowAiChanges(false);
+    provider?.acceptToolCall();
+    provider?.run();
+  };
+
+  const onReject = () => {
+    editor?.commands.setShowAiChanges(false);
+    provider?.rejectToolCall();
+  };
 
   if (!provider) {
     return null;
@@ -35,9 +46,7 @@ export function ConfirmChanges() {
           color="error"
           className="button destructive"
           type="button"
-          onClick={() => {
-            provider.rejectToolCall();
-          }}
+          onClick={onReject}
         >
           Reject
         </Button>
@@ -46,10 +55,7 @@ export function ConfirmChanges() {
           color="primary"
           className="button primary"
           type="button"
-          onClick={() => {
-            provider.acceptToolCall();
-            provider.run();
-          }}
+          onClick={onAccept}
         >
           Accept all
         </Button>

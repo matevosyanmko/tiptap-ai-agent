@@ -1,44 +1,32 @@
 import type { ReactNodeViewProps } from "@tiptap/react";
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
-import React, { useState } from "react";
+import React from "react";
 import CollapsibleContent from "./CollapsibleContent";
+import { focusLastParagraphOfEntitySection } from "../../utils/view";
+import { Box } from "@mui/material";
 
 const EntitySection = (props: ReactNodeViewProps<HTMLLabelElement>) => {
-  const [collapsed, setCollapsed] = useState(true);
+  const { node, updateAttributes } = props;
+  const { attrs } = node;
+  const isCollapsed = attrs.isCollapsed;
+  const title = attrs.title;
 
   const onCollapseToggle = (value?: boolean) => {
-    const newValue = value || !collapsed;
-    setCollapsed(newValue);
+    const newValue = value || !isCollapsed;
+    updateAttributes({ isCollapsed: newValue });
 
     if (newValue) {
       props.editor.commands.blur();
     } else {
-      // Find and focus the last paragraph inside this entity section
-      const nodePos = props.getPos();
-      if (typeof nodePos === "number") {
-        const node = props.editor.state.doc.nodeAt(nodePos);
-        if (node) {
-          // Find last child paragraph
-          let lastParagraphPos = -1;
-          node.descendants((child, pos) => {
-            if (child.type.name === "paragraph") {
-              lastParagraphPos = nodePos + pos + child.nodeSize;
-            }
-          });
-
-          if (lastParagraphPos >= 0) {
-            props.editor.commands.focus(lastParagraphPos);
-          }
-        }
-      }
+      focusLastParagraphOfEntitySection(props);
     }
   };
 
   return (
     <NodeViewWrapper>
       <CollapsibleContent
-        title={props.node.attrs.title}
-        collapseProps={{ in: !collapsed, onCollapseToggle }}
+        title={title}
+        collapseProps={{ in: !isCollapsed, onCollapseToggle }}
       >
         <NodeViewContent />
       </CollapsibleContent>

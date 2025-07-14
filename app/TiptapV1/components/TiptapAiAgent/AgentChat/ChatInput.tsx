@@ -7,7 +7,7 @@ import { useAiAgentProviderState } from "@/app/TiptapV1/hooks/useAiAgentProvider
 
 const ChatInput = () => {
   const { message, setMessage } = useContext(UserMessageContext);
-  const { provider } = useAiAgentProvider();
+  const { provider, editor } = useAiAgentProvider();
   const loading = useAiAgentProviderState(
     (state) => state.status === "loading"
   );
@@ -18,12 +18,9 @@ const ChatInput = () => {
 
   const onSubmit = () => {
     setMessage("");
+    editor?.commands.setShowAiChanges(false);
     provider?.addUserMessage(message);
     provider?.run();
-    console.group("ChatInput");
-    console.log("message", message);
-    console.log("system prompt", provider?.state.systemPrompt);
-    console.groupEnd();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

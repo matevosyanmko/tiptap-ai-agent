@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
       adapter: openaiChatCompletionsAdapter,
     });
 
-    console.log("toolkit.getSystemPrompt()", toolkit.getSystemPrompt());
 
     // Initialize the OpenAI client
     const openai = new OpenAI({
