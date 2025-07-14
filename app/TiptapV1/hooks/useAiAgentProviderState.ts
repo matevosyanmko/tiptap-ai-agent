@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAiAgentProvider } from "./useAiAgentProvider";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { AiAgentProviderState } from "@tiptap-pro/extension-ai-agent";
 
 /**

@@ -5,10 +5,6 @@ import ChatHistory from "./ChatHistory";
 import AutoAcceptToggle from "../AutoAcceptToggle";
 import { ConfirmChanges } from "../ConfirmChanges";
 import { useAiAgentProviderState } from "@/app/TiptapV1/hooks/useAiAgentProviderState";
-import { useLayoutEffect } from "react";
-import { toggleEntitySectionsCollapsed } from "@/app/TiptapV1/utils/view";
-import { useAiAgentProvider } from "@/app/TiptapV1/hooks/useAiAgentProvider";
-import { usePrevious } from "@/app/TiptapV1/hooks/usePrevious";
 
 export interface AgentChatProps {
   className?: string;

@@ -3,7 +3,6 @@ import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import React from "react";
 import CollapsibleContent from "./CollapsibleContent";
 import { focusLastParagraphOfEntitySection } from "../../utils/view";
-import { Box } from "@mui/material";
 
 const EntitySection = (props: ReactNodeViewProps<HTMLLabelElement>) => {
   const { node, updateAttributes } = props;

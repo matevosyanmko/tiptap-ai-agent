@@ -1,5 +1,4 @@
 import AiAgent from "@tiptap-pro/extension-ai-agent";
-import { Decoration } from "@tiptap/pm/view";
 import AiChanges from "@tiptap-pro/extension-ai-changes";
 import Focus from "@tiptap/extension-focus";
 
